@@ -1,10 +1,10 @@
 require 'facebook/messenger'
+require_relative './verification_provider'
 include Facebook::Messenger
 
-
-Facebook::Messenger::Subscriptions.subscribe(
-  access_token: ENV['ACCESS_TOKEN'] = ENV['MESSENGER_ACCESS_TOKEN']
-)
+Facebook::Messenger.configure do |config|
+  config.provider = FacebookVerificationProvider.new
+end
 
 Faceboook::Messenger::Bot.on :message do |message|
   message.reply(text: 'Hello, human!')
